@@ -1,0 +1,22 @@
+name: Rov-E Pre-Flight Check
+on: [push, pull_request]
+
+jobs:
+  validate-patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Setup Python Environment  
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Run All Diagnostics
+        # The slide uses 'rov-e_software', but for your current file structure
+        # (app.py), we use the current directory '.' or 'app'.
+        run: pytest --cov=.
